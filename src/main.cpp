@@ -63,15 +63,17 @@ bool is_empty_cell(pair<int,int> const& cell)
 
 void fill_board(pair<int,int> const& from)
 {
+    int col = from.first;
+    int row= from.second;
     board[from.second][from.first] = 10;
     int i = 0;
     for (auto const& e : steps)
     {
-        int col = from.first + e.first;
-        int row = from.second + e.second;
-        if (is_valid_coord({col, row}))
+        int dx = e.first;
+        int dy = e.second;
+        if (is_valid_coord({col + dx, row + dy}))
         {
-            board[row][col] = ++i;
+            board[row + dy][col + dx] = ++i;
         }
     }
 }
