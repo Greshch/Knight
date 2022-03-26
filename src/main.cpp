@@ -84,10 +84,15 @@ bool fill_board(pair<int,int> const& from)
 }
 
 
-int main()
+int main(int argc, char** argv)
 {
-    print_board();
-    fill_board({7, 7});
+    if (argc < 3)
+    {
+        cerr << "Lack of data...ERROR...\n";
+        return 404;
+    }
+    pair<int,int> begin_v {stoi(argv[1]), stoi(argv[2])};
+    fill_board(begin_v);
     print_board();
     return 0;
 }
