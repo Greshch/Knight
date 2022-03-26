@@ -1,6 +1,7 @@
 #include <iostream>
 #include <utility>
 #include <vector>
+#include <cstdio>
 using namespace std;
 
 const int ROWS = 8;
@@ -8,7 +9,7 @@ const int COLS = 8;
 
 const int STEP = 8;
 
-bool board[ROWS][COLS]
+int board[ROWS][COLS]
 {
 
 };
@@ -27,10 +28,11 @@ void print_board()
     {
         for (int j = 0; j < COLS; ++j)
         {
-            cout << board[i][j] << " ";
+            printf("%3d", board[i][j]);
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 bool is_fill_board()
@@ -51,25 +53,34 @@ bool is_fill_board()
 bool is_valid_coord(pair<int,int> const& cell)
 {
     return cell.first >= 0 && cell.first < COLS
-    &&     cell.second >= 0 && cell.second < ROWS
-    && board[cell.second][cell.first] == false;
+    &&     cell.second >= 0 && cell.second < ROWS;
 }
 
-void fill_board(pair<int,int> const& from, pair<int,int> const& to)
+bool is_empty_cell(pair<int,int> const& cell)
 {
-    if (is_valid_coord(from))
-    {
+    return board[cell.second][cell.first] == false;
+}
 
-    }
-    if (is_fill_board())
+void fill_board(pair<int,int> const& from)
+{
+    board[from.second][from.first] = 10;
+    int i = 0;
+    for (auto const& e : steps)
     {
-        return;
+        int col = from.first + e.first;
+        int row = from.second + e.second;
+        if (is_valid_coord({col, row}))
+        {
+            board[row][col] = ++i;
+        }
     }
 }
 
 
 int main()
 {
+    print_board();
+    fill_board({7, 7});
     print_board();
     return 0;
 }
