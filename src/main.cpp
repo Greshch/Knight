@@ -4,7 +4,7 @@
 #include <cstdio>
 using namespace std;
 
-const int SIZE = 8;
+const int SIZE = 6;
 const int ROWS = SIZE;
 const int COLS = SIZE;
 
@@ -66,10 +66,16 @@ bool fill_board(pair<int,int> const& from)
 {
     int col = from.first;
     int row= from.second;
-    if ( !is_valid_coord({col, row }) )
+    if ( !is_valid_coord({col, row }))
     {
         return false;
     }
+
+    if (!is_empty_cell({col, row}))
+    {
+        return false;
+    }
+
     board[from.second][from.first] = 10;
     int i = 0;
     for (auto const& e : steps)
