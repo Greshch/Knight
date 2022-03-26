@@ -4,11 +4,14 @@
 #include <cstdio>
 using namespace std;
 
+#define LACK_OF_ARGS -1
+
 const int SIZE = 6;
 const int ROWS = SIZE;
 const int COLS = SIZE;
+const int CELLS = ROWS * COLS - 1;
 
-
+int cells = 0;
 
 int board[ROWS][COLS]
 {
@@ -38,17 +41,7 @@ void print_board()
 
 bool is_fill_board()
 {
-    for (int i = 0; i < ROWS; ++i)
-    {
-        for (int j = 0; j < COLS; ++j)
-        {
-            if (board[i][j] == false)
-            {
-                return false;
-            }
-        }
-    }
-    return true;
+    return cells == CELLS;
 }
 
 bool is_valid_coord(pair<int,int> const& cell)
@@ -96,7 +89,7 @@ int main(int argc, char** argv)
     if (argc < 3)
     {
         cerr << "Lack of data...ERROR...\n";
-        return 404;
+        return LACK_OF_ARGS;
     }
     pair<int,int> begin_v {stoi(argv[1]), stoi(argv[2])};
     fill_board(begin_v);
