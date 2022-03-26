@@ -4,10 +4,11 @@
 #include <cstdio>
 using namespace std;
 
-const int ROWS = 8;
-const int COLS = 8;
+const int SIZE = 8;
+const int ROWS = SIZE;
+const int COLS = SIZE;
 
-const int STEP = 8;
+
 
 int board[ROWS][COLS]
 {
