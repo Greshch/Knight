@@ -2,16 +2,17 @@
 #include <utility>
 #include <vector>
 #include <cstdio>
+#include <time.h>
 using namespace std;
 
 #define LACK_OF_ARGS -1
 
-const int SIZE = 6;
+const int SIZE = 8;
 const int ROWS = SIZE;
 const int COLS = SIZE;
 const int CELLS = ROWS * COLS;
 
-int cells = 0;
+//int count = 0;
 
 int board[ROWS][COLS]
 {
@@ -20,10 +21,25 @@ int board[ROWS][COLS]
 // x -first y - second
 vector<pair<int, int>> const steps
 {
-        {2, 1}, {2, -1},
-        {1, -2}, {-1, -2},
-        {-2, -1}, {-2, 1},
-        {-1, 2}, {1, 2}
+        //A pure choice consequence
+        /*{2, 1},
+        {2, -1},
+        {1, -2},
+        {-1, -2},
+        {-2, -1},
+        {-2, 1},
+        {-1, 2},
+         {1, 2}*/
+
+        //Good consequence especially for {0,0}, {3,0}, {7,7}
+        {-2, 1},
+        {-1, 2},
+        {1, 2},
+        {2, 1},
+        {2, -1},
+        {1, -2},
+        {-1, -2},
+        {-2, -1},
 };
 
 void print_board()
@@ -39,9 +55,9 @@ void print_board()
     cout << endl;
 }
 
-bool is_fill_board()
+bool is_fill_board(int fill_cells)
 {
-    return cells == CELLS;
+    return fill_cells == CELLS;
 }
 
 bool is_valid_coord(pair<int,int> const& cell)
@@ -57,6 +73,7 @@ bool is_empty_cell(pair<int,int> const& cell)
 
 bool fill_board(pair<int,int> const& from)
 {
+    static int cells = 0;
     int col = from.first;
     int row= from.second;
     if ( !is_valid_coord({col, row }))
@@ -69,10 +86,11 @@ bool fill_board(pair<int,int> const& from)
         return false;
     }
 
+    //cout << "$$ {col=" << col << ", row=" << row << endl;
     cells++;
     board[from.second][from.first] = cells;
 
-    if (is_fill_board())
+    if (is_fill_board(cells))
     {
         return true;
     }
@@ -87,6 +105,12 @@ bool fill_board(pair<int,int> const& from)
         }
     }
     --cells;
+    /*if (cells >= 62)
+    {
+        ++count;
+        cout << "#" << cells << (count % 40 == 0 ? "\n" : " ");
+        count %= 40;
+    }*/
     board[row][col] = false;
     return false;
 }
@@ -100,7 +124,12 @@ int main(int argc, char** argv)
         return LACK_OF_ARGS;
     }
     pair<int,int> begin_v {stoi(argv[1]), stoi(argv[2])};
+    time_t  start;
+    time(&start);
     fill_board(begin_v);
     print_board();
+    time_t  end;
+    time(&end);
+    //cout << "\n\tSolution had been find by " << end - start << " sec.\n";
     return 0;
 }
